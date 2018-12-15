@@ -1,11 +1,7 @@
 /*
- * File      : stm32f4_rtc.c
- * This file is stm32f4 rtc driver part of RT-Thread RTOS
- * COPYRIGHT (C) 2009, RT-Thread Development Team
+ * Copyright (c) 2006-2018, RT-Thread Development Team
  *
- * The license and distribution terms for this file may be
- * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       Notes
@@ -23,7 +19,7 @@ static int get_week(int year, int month, int day)
 		year -=1;
 		month +=12;
 	}
-	return (day+1+2*month+3*(month+1)/5+year+(year/4)-year/100+year/400)%7;
+	return (day+1+2*month+3*(month+1)/5+year+(year/4)-year/100+year/400)%7+1;
 }
 
 static struct rt_device rtc;
@@ -42,7 +38,7 @@ static rt_size_t rt_rtc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_siz
     return 0;
 }
 
-static rt_err_t rt_rtc_control(rt_device_t dev, rt_uint8_t cmd, void *args)
+static rt_err_t rt_rtc_control(rt_device_t dev, int cmd, void *args)
 {
     rt_time_t *time;
     RT_ASSERT(dev != RT_NULL);
